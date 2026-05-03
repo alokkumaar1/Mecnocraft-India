@@ -1,0 +1,84 @@
+@import 'tailwindcss';
+
+@layer base {
+  :root {
+    --bg: 10 11 16; /* #0A0B10 */
+    --bg2: 13 14 22; /* #0D0E16 */
+    --card: 16 18 28; /* #10121C */
+    --text: 226 232 240; /* slate-200 */
+    --muted: 148 163 184; /* slate-400 */
+    --line: 45 48 66; /* slate-ish */
+    --brandA: 99 102 241; /* indigo-500 */
+    --brandB: 34 211 238; /* cyan-400 */
+    --brandC: 217 70 239; /* fuchsia-500 */
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: "General Sans", Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+      Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+    background: #000000;
+    color: rgb(var(--text));
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(var(--brandB) / 0.25);
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.07),
+      rgba(255, 255, 255, 0.03)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(14px);
+  }
+
+  .grid-fade {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  .ring-glow {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.10),
+      0 0 30px rgba(var(--brandA) / 0.25),
+      0 0 70px rgba(var(--brandB) / 0.12);
+  }
+
+  .btn-glow {
+    box-shadow:
+      0 10px 30px rgba(var(--brandA) / 0.25),
+      0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee {
+    animation: marquee 28s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      animation: none;
+    }
+  }
+}
