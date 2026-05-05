@@ -38,17 +38,14 @@ export function Web3LandingPage() {
               <img
                 src={logo}
                 alt=""
-                className="h-9 w-auto"
+                className="h-20 w-auto"
                 width={140}
                 height={36}
                 draggable={false}
               />
               <div className="hidden min-[420px]:block text-left">
-                <div className="text-sm font-semibold leading-tight tracking-tight text-white">
-                  Mecnocraft India
-                </div>
-                <div className="mt-0.5 text-[11px] font-medium leading-tight text-white/70">
-                  Crafting Digital Solutions
+                <div className="text-sm font-semibold leading-tight tracking-widest text-white uppercase">
+                  MECNOCRAFT
                 </div>
               </div>
             </Link>

@@ -15,10 +15,12 @@ import iitDharwad from '../assets/clients/iit-dharwad.png'
 import cpplus from '../assets/clients/cpplus.png'
 import coretp from '../assets/clients/coretp.png'
 import inp from '../assets/clients/inp.png'
+import hp from '../assets/clients/Hplogo.jpeg'
 
 const logos = [
   { name: 'Samsung', src: samsung },
   { name: 'Acer', src: acer },
+  { name: 'HP', src: hp },
   { name: 'Panasonic', src: panasonic },
   { name: 'Uniline', src: uniline },
   { name: 'NPAV Cyber Security', src: npav },

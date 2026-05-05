@@ -73,7 +73,7 @@ export function FinalCTA() {
                 <ContactPill
                   icon="phone"
                   label="Phone"
-                  value="+91 89876 91015"
+                  value="+91 9990887833"
                 />
                 <ContactPill
                   icon="mail"

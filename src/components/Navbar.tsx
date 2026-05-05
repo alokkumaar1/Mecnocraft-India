@@ -46,20 +46,17 @@ export function Navbar() {
           <NavLink
             to="/"
             className="group inline-flex items-center gap-3 rounded-xl px-2 py-1.5"
-            aria-label="Mecnocraft India"
+            aria-label="MECNOCRAFT"
           >
             <img
               src={logo}
               alt=""
-              className="h-9 w-auto select-none"
+              className="h-12 sm:h-14 w-auto select-none"
               draggable={false}
             />
             <div className="hidden sm:block">
-              <div className="font-semibold tracking-tight text-slate-100">
-                Mecnocraft India
-              </div>
-              <div className="-mt-0.5 text-xs text-slate-300/70">
-                Crafting Digital Solutions
+              <div className="font-[Poppins] text-xl font-extrabold tracking-widest text-slate-100 uppercase">
+                MECNOCRAFT
               </div>
             </div>
           </NavLink>

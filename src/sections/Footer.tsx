@@ -11,16 +11,13 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <img
                 src={logo}
-                alt="Mecnocraft India"
-                className="h-10 w-auto select-none"
+                alt="Mecnocraft"
+                className="h-14 sm:h-16 w-auto select-none"
                 draggable={false}
               />
               <div>
-                <div className="font-semibold text-slate-100">
-                  Mecnocraft India
-                </div>
-                <div className="text-xs text-slate-200/60">
-                  IT • IoT • AI • Hardware solutions across India
+                <div className="font-[Poppins] text-xl font-extrabold tracking-widest text-slate-100 uppercase">
+                  MECNOCRAFT
                 </div>
               </div>
             </div>
@@ -53,7 +50,7 @@ export function Footer() {
                 <FooterLink href="/contact">Contact</FooterLink>
               </Col>
               <Col title="Contact">
-                <FooterRow icon="phone" label="+91 89876 91015" />
+                <FooterRow icon="phone" label="+91 9990887833" />
                 <FooterRow icon="mail" label="info@mecnocraftindia.in" />
                 <FooterRow icon="mail" label="mecnocraft2023@gmail.com" />
                 <FooterRow icon="pin" label="India (Pan‑India coverage)" />
