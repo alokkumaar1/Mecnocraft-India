@@ -34,14 +34,17 @@ export function FinalCTA() {
         })
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok && data.success) {
         setStatus('success');
         setFormData({ name: '', company: '', email: '', phone: '', message: '' });
       } else {
+        console.error('Server error response:', data);
         setStatus('error');
       }
     } catch(error) {
-      console.error(error);
+      console.error('Network catch block error:', error);
       setStatus('error');
     }
   };
