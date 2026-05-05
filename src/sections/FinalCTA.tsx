@@ -1,8 +1,51 @@
 import { motion } from 'framer-motion'
 import { Container } from '../components/Container'
 import { Icon } from '../components/Icon'
+import { useState } from 'react'
 
 export function FinalCTA() {
+  const [formData, setFormData] = useState({
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    
+    try {
+      const bodyMessage = `Company: ${formData.company}\nPhone: ${formData.phone}\n\nRequirements:\n${formData.message}`;
+
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: bodyMessage,
+        })
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ name: '', company: '', email: '', phone: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch(error) {
+      console.error(error);
+      setStatus('error');
+    }
+  };
+
   return (
     <section id="contact" className="py-14 sm:py-16 md:py-20">
       <Container>
@@ -64,24 +107,44 @@ export function FinalCTA() {
                 viewport={{ once: true, margin: '-10% 0px -10% 0px' }}
                 transition={{ duration: 0.6, delay: 0.05 }}
                 className="glass rounded-3xl p-6"
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={handleSubmit}
               >
                 <div className="text-sm font-semibold text-slate-100">
                   Send a query
                 </div>
+                
+                {status === 'success' && (
+                  <div className="mt-4 rounded-xl bg-green-500/20 px-4 py-3 text-sm text-green-200 border border-green-500/30">
+                    Your message has been sent successfully! We'll get back to you soon.
+                  </div>
+                )}
+                {status === 'error' && (
+                  <div className="mt-4 rounded-xl bg-red-500/20 px-4 py-3 text-sm text-red-200 border border-red-500/30">
+                    Failed to send message. Please try again.
+                  </div>
+                )}
+
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  <Field label="Name" placeholder="Your name" />
-                  <Field label="Company" placeholder="Company / org" />
+                  <Field label="Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Your name" />
+                  <Field label="Company" name="company" value={formData.company} onChange={handleChange} placeholder="Company / org" />
                   <Field
                     label="Email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
                     placeholder="you@company.com"
                     type="email"
                   />
-                  <Field label="Phone" placeholder="+91…" />
+                  <Field label="Phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+91…" />
                 </div>
                 <div className="mt-3">
                   <Field
                     label="Requirements"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
                     placeholder="Tell us what you're building…"
                     textarea
                   />
@@ -89,9 +152,10 @@ export function FinalCTA() {
 
                 <button
                   type="submit"
-                  className="btn-glow mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/4 px-5 py-3 text-sm font-semibold text-slate-100/85 transition hover:bg-white/6"
+                  disabled={status === 'loading'}
+                  className="btn-glow mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/4 px-5 py-3 text-sm font-semibold text-slate-100/85 transition hover:bg-white/6 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Submit inquiry <Icon name="arrow" className="h-4 w-4" />
+                  {status === 'loading' ? 'Sending...' : 'Submit inquiry'} <Icon name="arrow" className="h-4 w-4" />
                 </button>
               </motion.form>
             </div>
@@ -129,11 +193,19 @@ function Field({
   placeholder,
   type = 'text',
   textarea = false,
+  name,
+  value,
+  onChange,
+  required = false,
 }: {
   label: string
   placeholder: string
   type?: string
   textarea?: boolean
+  name?: string
+  value?: string
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+  required?: boolean
 }) {
   const base =
     'mt-1 w-full rounded-xl border border-white/10 bg-white/4 px-3 py-2.5 text-sm text-slate-100 placeholder:text-slate-200/35 outline-none transition focus:border-white/20 focus:ring-2 focus:ring-white/10'
@@ -142,9 +214,24 @@ function Field({
     <label className="block text-xs font-semibold text-slate-200/75">
       {label}
       {textarea ? (
-        <textarea className={`${base} min-h-28 resize-none`} placeholder={placeholder} />
+        <textarea
+          name={name}
+          value={value}
+          onChange={onChange}
+          required={required}
+          className={`${base} min-h-28 resize-none`}
+          placeholder={placeholder}
+        />
       ) : (
-        <input className={base} placeholder={placeholder} type={type} />
+        <input
+          name={name}
+          value={value}
+          onChange={onChange}
+          required={required}
+          className={base}
+          placeholder={placeholder}
+          type={type}
+        />
       )}
     </label>
   )
