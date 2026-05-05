@@ -14,19 +14,21 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Configure the email transport using Gmail
+    // Configure the email transport using SMTP
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      secure: process.env.SMTP_PORT === '465', // true for 465, false for other ports
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
       },
     });
 
     // Setup email data
     const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, // Send to the same Gmail account
+      from: process.env.SMTP_USER,
+      to: process.env.SMTP_USER, // Send to the same account
       replyTo: email,
       subject: 'New Contact Message',
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
